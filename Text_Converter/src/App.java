@@ -8,7 +8,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         Scanner scan = new Scanner(System.in);
         System.out.println("File Format: D:/vikas/");
-        System.out.println("Give file name in data folder: "); //comment
+        System.out.println("Give file name in data folder: ");
         String filePath = "D:/Vikas/VS Code/Basic Java Projects/Text_Converter/data/"+scan.nextLine();
         scan.close();
 
