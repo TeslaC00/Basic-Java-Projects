@@ -17,7 +17,7 @@ public class Frame extends JFrame implements ActionListener{
     private JMenuItem save;
 
     Frame(){
-        
+
         button = new JButton("Exit");
         button.addActionListener(this);
         button.setBounds(200, 200, 50, 50);
@@ -34,8 +34,8 @@ public class Frame extends JFrame implements ActionListener{
         menuBar.add(fileMenu);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
         this.setSize(500, 500);
+        this.setLocationRelativeTo(null);
         this.setJMenuBar(menuBar);
         this.add(button);
         this.setVisible(true);
