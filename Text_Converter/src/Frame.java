@@ -15,6 +15,8 @@ public class Frame extends JFrame implements ActionListener{
     private JMenu fileMenu;
     private JMenuItem load;
     private JMenuItem save;
+    private String words[][];
+    private JFileChooser fileChooser = new JFileChooser(".");
 
     Frame(){
 
@@ -48,11 +50,18 @@ public class Frame extends JFrame implements ActionListener{
         }
         
         if(e.getSource()==load){
-            JFileChooser fileChooser = new JFileChooser(".");
-            int response = fileChooser.showOpenDialog(fileChooser);
+            int response = fileChooser.showOpenDialog(null);
             if(response==JFileChooser.APPROVE_OPTION){
                 converter = new Converter(fileChooser.getSelectedFile().getAbsolutePath());
-                converter.convertFileToWord();
+                words = converter.convertFileToWord();
+            }
+        }
+
+        if(e.getSource()==save){
+            int response = fileChooser.showSaveDialog(null);
+            if(response==JFileChooser.APPROVE_OPTION){
+                String savePath = fileChooser.getSelectedFile().getAbsolutePath();
+                converter.saveWordToFile(savePath, words);
             }
         }
     }

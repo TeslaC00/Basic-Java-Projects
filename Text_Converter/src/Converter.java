@@ -1,5 +1,8 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -47,16 +50,30 @@ public class Converter {
             words[index][indexes[index]++] = i;
         }
 
-        for(String[] row: words){
-            if(row != null){
-                for(String word: row){
-                    if(word != null){
-                        System.out.print(word+" ");
-                    }
-                }
-                System.out.println();
-            }
-        }
         return words;
     }
+
+    public void saveWordToFile(String saveFilePath, String words[][]){
+        File file = new File(saveFilePath);
+        try {
+            if(file.createNewFile()) System.out.println("Created new file");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveFilePath))) {
+                for(String[] row: words){
+                    if(row!=null){
+                        for(String word: row){
+                            if(word!=null){
+                                writer.write(word+" ");
+                            }
+                        }
+                        writer.write("\n");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
