@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -54,6 +55,7 @@ public class Frame extends JFrame implements ActionListener{
             if(response==JFileChooser.APPROVE_OPTION){
                 converter = new Converter(fileChooser.getSelectedFile().getAbsolutePath());
                 words = converter.convertFileToWord();
+                JOptionPane.showMessageDialog(null, "File loaded and processed successfully", "File Loaded", JOptionPane.INFORMATION_MESSAGE);
             }
         }
 
