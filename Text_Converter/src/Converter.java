@@ -47,11 +47,6 @@ public class Converter {
             words[index][indexes[index]++] = i;
         }
 
-        for(int i: indexes){
-            System.out.print(i+" ");
-        }
-        System.out.println();
-
         for(String[] row: words){
             if(row != null){
                 for(String word: row){
