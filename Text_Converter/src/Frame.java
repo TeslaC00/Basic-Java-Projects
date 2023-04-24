@@ -36,7 +36,7 @@ public class Frame extends JFrame implements ActionListener {
     private String words[][];
     private JFileChooser fileChooser;
     private JScrollPane scrollPane;
-    private JComboBox fontBox;
+    private JComboBox<String> fontBox;
     private Font defaultFont;
 
     Frame(){
@@ -83,7 +83,7 @@ public class Frame extends JFrame implements ActionListener {
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        fontBox = new JComboBox<>(fonts);
+        fontBox = new JComboBox<String>(fonts);
         fontBox.setSelectedItem("Ink Free");
         fontBox.addActionListener(this);
 
