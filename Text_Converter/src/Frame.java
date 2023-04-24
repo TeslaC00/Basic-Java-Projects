@@ -22,29 +22,37 @@ import java.util.Scanner;
 
 public class Frame extends JFrame implements ActionListener {
 
+    // All Global variables declared
     private Converter converter;
     private JTextArea textArea;
     private JMenuBar menuBar;
-    private JMenu fileMenu;
-    private JMenuItem open;
-    private JMenuItem load;
-    private JMenuItem save;
-    private JMenuItem exit;
-    private JMenu color;
-    private JMenuItem fontColor;
-    private JMenuItem bgColor;
+    private JMenu fileMenu, color;
+    private JMenuItem open, load, save, exit, fontColor, bgColor;
     private String words[][];
     private JFileChooser fileChooser;
     private JScrollPane scrollPane;
     private JComboBox<String> fontBox;
     private Font defaultFont;
 
-    Frame(){
+    // All constants defined
+    final private int DEFAULT_FONT_SIZE = 20;
+    final private int FRAME_WIDTH = 720;
+    final private int FRAME_HEIGHT = 720;
 
-        //---------<<menu-bar>>----------//
-        menuBar = new JMenuBar();
+    public Frame(){
+
+        createMenuBar();        // creates a menu bar
+        createFontBox();        // creates a fontbox
+        createTextArea();       // creates a text area
+        createUI();             // creates a basic UI and add all components
+        initializeListeners();  // initialize all Listeners
+        converter = new Converter();
+    }
+    
+    private void createMenuBar(){
+        
+        // Initialize all menu variables
         fileChooser = new JFileChooser(".");
-        textArea = new JTextArea("\n\t\tThis Is A Text Area");
         fileMenu = new JMenu("File");
         color = new JMenu("Color");
         open = new JMenuItem("Open");
@@ -53,72 +61,101 @@ public class Frame extends JFrame implements ActionListener {
         exit = new JMenuItem("Exit");
         fontColor = new JMenuItem("Font Color");
         bgColor = new JMenuItem("Text Area Color");
+        
+        // Add all menu items to menu
+        fileMenu.add(open);
+        fileMenu.add(load);
+        fileMenu.add(save);
+        fileMenu.add(exit);
+        color.add(fontColor);
+        color.add(bgColor);
 
+        // Add menu to menu bar
+        menuBar = new JMenuBar();
+        menuBar.add(fileMenu);
+        menuBar.add(color);
+    }
+
+    private void createFontBox(){
+
+        String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // Get all available fonts
+        JComboBox<String>fontBox = new JComboBox<String>(fonts);
+        fontBox.setSelectedItem("Ink Free");
+    }
+
+    private void createTextArea(){
+
+        // Initialize all Text Area variables
+        defaultFont = new Font("Ink Free", Font.PLAIN, DEFAULT_FONT_SIZE);
+        textArea = new JTextArea("\n\t\tThis Is A Text Area");
+
+        // Set font properties
+        textArea.setEditable(false);
+        textArea.setFont(defaultFont);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setBackground(Color.cyan);
+
+        // Initalize scroll pane and add Text area to scroll pane
+        scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(670, 610));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    }
+
+    private void createUI(){
+
+        // Set basic UI properties of this frame
+        setTitle("Text Converter");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(FRAME_WIDTH,FRAME_HEIGHT);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        getContentPane().setBackground(Color.DARK_GRAY);
+        setLayout(new FlowLayout());
+        
+        // Add components to this frame
+        setJMenuBar(menuBar);
+        add(fontBox);
+        add(scrollPane);
+        setVisible(true);
+    }
+
+    private void initializeListeners(){
+
+        // Add action listener to all menu items
         load.addActionListener(this);
         save.addActionListener(this);
         exit.addActionListener(this);
         open.addActionListener(this);
         fontColor.addActionListener(this);
         bgColor.addActionListener(this);
-
-        color.add(fontColor);
-        color.add(bgColor);
-        fileMenu.add(open);
-        fileMenu.add(load);
-        fileMenu.add(save);
-        fileMenu.add(exit);
-        menuBar.add(fileMenu);
-        menuBar.add(color);
-        //---------<<menu-bar>>----------//
-
-        defaultFont = new Font("Ink Free", Font.PLAIN, 20);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setFont(defaultFont);
-        textArea.setWrapStyleWord(true);
-        textArea.setBackground(Color.cyan);
-
-        scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(670, 610));
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        fontBox = new JComboBox<String>(fonts);
-        fontBox.setSelectedItem("Ink Free");
         fontBox.addActionListener(this);
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(720, 720);
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.getContentPane().setBackground(Color.DARK_GRAY);
-        this.setLayout(new FlowLayout());
-        this.setJMenuBar(menuBar);
-        this.add(fontBox);
-        this.add(scrollPane);
-        this.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if(e.getSource()==exit){
             System.exit(0);
         }
         
-        if(e.getSource()==load){
+        else if(e.getSource()==load){
             int response = fileChooser.showOpenDialog(null);
             if(response==JFileChooser.APPROVE_OPTION){
-                converter = new Converter(fileChooser.getSelectedFile().getAbsolutePath());
+                converter.setLoadFilePath(fileChooser.getSelectedFile().getAbsolutePath());
                 words = converter.convertFileToWord();
                 JOptionPane.showMessageDialog(null, "File loaded and processed successfully", "File Loaded", JOptionPane.INFORMATION_MESSAGE);
             }
+            else{
+                JOptionPane.showMessageDialog(null, "File didn't loaded", "File Load Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
-        if(e.getSource()==save){
+        else if(e.getSource()==save){
             int response = fileChooser.showSaveDialog(null);
             if(response==JFileChooser.APPROVE_OPTION){
-                String savePath = fileChooser.getSelectedFile().getAbsolutePath();
-                if(converter.saveWordToFile(savePath, words)){
+                converter.setSaveFilePath(fileChooser.getSelectedFile().getAbsolutePath());
+                if(converter.saveWordToFile(words)){
                     JOptionPane.showMessageDialog(null, "File saved successfully", "File Saved", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
@@ -127,7 +164,7 @@ public class Frame extends JFrame implements ActionListener {
             }
         }
 
-        if(e.getSource()==open){
+        else if(e.getSource()==open){
             int response = fileChooser.showOpenDialog(null);
             if(response==JFileChooser.APPROVE_OPTION){
                 if(textArea.getText()!=null) textArea.setText("");
@@ -144,18 +181,22 @@ public class Frame extends JFrame implements ActionListener {
             }
         }
 
-        if(e.getSource()==fontBox){
+        else if(e.getSource()==fontBox){
             textArea.setFont(new Font(fontBox.getSelectedItem().toString(),Font.PLAIN,20));
         }
 
-        if(e.getSource()==fontColor){
+        else if(e.getSource()==fontColor){
             Color fontC = JColorChooser.showDialog(null, "Font Color Chooser", Color.black);
             textArea.setForeground(fontC);
         }
 
-        if(e.getSource()==bgColor){
+        else if(e.getSource()==bgColor){
             Color bgC = JColorChooser.showDialog(null, "Text Area Color Chooser", Color.cyan);
             textArea.setBackground(bgC);
+        }
+
+        else{
+            JOptionPane.showMessageDialog(null, "Unknown option selected please select valid options", "Unknown Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
