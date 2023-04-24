@@ -5,6 +5,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -28,7 +31,7 @@ public class Frame extends JFrame implements ActionListener {
 
         menuBar = new JMenuBar();
         fileChooser = new JFileChooser(".");
-        textArea = new JTextArea("\n\n\n\n\n\t\tThis Is A Text Area");
+        textArea = new JTextArea("\n\n\n\n\t\tThis Is A Text Area");
         fileMenu = new JMenu("File");
         open = new JMenuItem("Open");
         load = new JMenuItem("Load");
@@ -49,11 +52,15 @@ public class Frame extends JFrame implements ActionListener {
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
+        textArea.setPreferredSize(new Dimension(420, 420));
+        textArea.setBackground(Color.cyan);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.getContentPane().setBackground(Color.DARK_GRAY);
+        this.setLayout(new FlowLayout());
         this.setJMenuBar(menuBar);
         this.add(textArea);
         this.setVisible(true);
