@@ -22,11 +22,12 @@ public class Frame extends JFrame implements ActionListener {
     private JMenuItem save;
     private JMenuItem exit;
     private String words[][];
-    private JFileChooser fileChooser = new JFileChooser(".");
+    private JFileChooser fileChooser;
 
     Frame(){
 
         menuBar = new JMenuBar();
+        fileChooser = new JFileChooser(".");
         textArea = new JTextArea("\n\n\n\n\n\t\tThis Is A Text Area");
         fileMenu = new JMenu("File");
         open = new JMenuItem("Open");
@@ -77,7 +78,12 @@ public class Frame extends JFrame implements ActionListener {
             int response = fileChooser.showSaveDialog(null);
             if(response==JFileChooser.APPROVE_OPTION){
                 String savePath = fileChooser.getSelectedFile().getAbsolutePath();
-                converter.saveWordToFile(savePath, words);
+                if(converter.saveWordToFile(savePath, words)){
+                    JOptionPane.showMessageDialog(null, "File saved successfully", "File Saved", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "File didn't saved", "File Save Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
 
