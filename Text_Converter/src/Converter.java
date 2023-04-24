@@ -8,19 +8,20 @@ import java.util.ArrayList;
 
 public class Converter {
     
-    private String filePath;
+    private String saveFilePath;
+    private String loadFilePath;
 
-    Converter(String str){
-        setFilePath(str);
+    public void setSaveFilePath(String saveFilePath) {
+        this.saveFilePath = saveFilePath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setLoadFilePath(String loadFilePath) {
+        this.loadFilePath = loadFilePath;
     }
 
     public String[][] convertFileToWord() {
         ArrayList<String> text = new ArrayList<String>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(loadFilePath))) {
             String line;
             while((line = reader.readLine()) != null){
                 String words[] = line.trim().split("\\s+");
@@ -53,10 +54,10 @@ public class Converter {
         return words;
     }
 
-    public boolean saveWordToFile(String saveFilePath, String words[][]){
+    public boolean saveWordToFile(String words[][]){
         File file = new File(saveFilePath);
         try {
-            if(file.createNewFile()) System.out.println("Created new file");
+            if(file.createNewFile());
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveFilePath))) {
                 for(String[] row: words){
                     if(row!=null){
