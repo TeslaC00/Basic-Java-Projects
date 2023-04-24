@@ -79,7 +79,7 @@ public class Frame extends JFrame implements ActionListener {
     private void createFontBox(){
 
         String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // Get all available fonts
-        JComboBox<String>fontBox = new JComboBox<String>(fonts);
+        fontBox = new JComboBox<String>(fonts);
         fontBox.setSelectedItem("Ink Free");
     }
 
