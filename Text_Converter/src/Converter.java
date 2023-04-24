@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class Converter {
     
@@ -54,7 +53,7 @@ public class Converter {
         return words;
     }
 
-    public void saveWordToFile(String saveFilePath, String words[][]){
+    public boolean saveWordToFile(String saveFilePath, String words[][]){
         File file = new File(saveFilePath);
         try {
             if(file.createNewFile()) System.out.println("Created new file");
@@ -69,13 +68,14 @@ public class Converter {
                         writer.write("\n");
                     }
                 }
+                return true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JOptionPane.showMessageDialog(null, "File saved successfully", "File Saved", JOptionPane.INFORMATION_MESSAGE);
+        return false;
     }
 
 }
