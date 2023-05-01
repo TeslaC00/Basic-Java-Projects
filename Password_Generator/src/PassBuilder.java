@@ -8,4 +8,6 @@ public class PassBuilder {
             keys[i] = (char)(i+32);
         }
     }
+
+    public void generate(){}
 }
