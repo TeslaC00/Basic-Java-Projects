@@ -6,7 +6,7 @@ public class Main {
     private static int choice;
     public static void main(String[] args) throws Exception {
         
-        mainScreen();   //shows main screen text
+        mainMenu();   //shows main screen text
         takeChoice();   //takes the user choice
 
         switch(1){
@@ -22,7 +22,7 @@ public class Main {
         }
     }
 
-    private static void mainScreen() {
+    private static void mainMenu() {
 
         System.out.println("\033[H\033[2J");    //clears the screen
         System.out.println("\t\t\tWelcome to Password Generator and Strength Checker");
