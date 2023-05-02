@@ -9,7 +9,7 @@ public class Main {
         mainScreen();   //shows main screen text
         takeChoice();   //takes the user choice
 
-        switch(choice){
+        switch(1){
             case 0:
                 System.exit(0);
                 break;
@@ -23,6 +23,7 @@ public class Main {
     }
 
     private static void mainScreen() {
+
         System.out.println("\033[H\033[2J");    //clears the screen
         System.out.println("\t\t\tWelcome to Password Generator and Strength Checker");
         System.out.println("\n\n\t\t\t1.Generate a new Password");
@@ -32,18 +33,19 @@ public class Main {
     }
 
     public static void takeChoice(){
+        
         Scanner scan = new Scanner(System.in);
         try {
             System.out.print("\t\t\tYour Choice: ");
             choice = scan.nextInt();
             try {
-                if(choice>3 || choice<0) throw new InvalidChoiceException();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+                if(choice>3 || choice<0) throw new CustomException("Please give a number between 0 and 2");
+            } catch (CustomException e) {
+                System.err.println(e.getMessage());
                 takeChoice();
             }
         } catch (InputMismatchException e) {
-            System.out.println("\t\t\tPlease give a number as input shown in the above menu");
+            System.err.println("\t\t\tPlease give a number as input shown in the above menu");
             takeChoice();
         } finally{
             scan.close();
