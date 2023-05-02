@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static int choice = -1;
+    private static int choice;
     public static void main(String[] args) throws Exception {
         
         mainScreen();   //shows main screen text
@@ -14,23 +14,12 @@ public class Main {
                 System.exit(0);
                 break;
             case 1:
-                method1();
+                new PassBuilder();
                 break;
             case 2:
-                method2();
+                new StrengthChecker();
                 break;
-            default:
-                System.out.println("\t\t\tPlease give a number as input shown in the above menu");
-                takeChoice();
         }
-    }
-
-    private static void method2() {
-        System.out.println("Case 2");
-    }
-
-    private static void method1() {
-        System.out.println("Case 1");
     }
 
     private static void mainScreen() {
@@ -47,6 +36,12 @@ public class Main {
         try {
             System.out.print("\t\t\tYour Choice: ");
             choice = scan.nextInt();
+            try {
+                if(choice>3 || choice<0) throw new InvalidChoiceException();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                takeChoice();
+            }
         } catch (InputMismatchException e) {
             System.out.println("\t\t\tPlease give a number as input shown in the above menu");
             takeChoice();
