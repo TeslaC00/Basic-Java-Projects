@@ -44,9 +44,26 @@ public class PassBuilder {
     private void passBuilderMenu(){
 
         System.out.println("\033[H\033[2J");    //clears the screen
-        System.out.println("Welcome to Password Builder");
-        setPassParameters();
-        generate();
+        System.out.println("Welcome to Password Builder\n");
+        System.out.println("0.Go back\n1.Set Password Parameters\n2.Generate Password");
+        System.out.print("Please give your choice: ");
+        
+        while(true){
+            
+            switch(Helper.promptInput()){
+                case 0:
+                    new Main();
+                    break;
+                case 1: 
+                    setPassParameters();
+                    break;
+                case 2: 
+                    generate();
+                    break;
+                default:
+                    System.out.println("Please give a valid number");
+            }
+        }
     }
 
     private void setPassParameters(){
@@ -95,9 +112,11 @@ public class PassBuilder {
             }
         } catch (InputMismatchException e) {
             System.err.print("Please give a number as input: ");
-            scan.nextLine();
             setPassLength();
         }
+        System.out.println("Press enter to generate password...");
+        scan.nextLine();
+        generate();
     }
 
     public void generate(){
