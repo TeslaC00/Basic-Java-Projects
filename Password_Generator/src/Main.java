@@ -20,7 +20,7 @@ public class Main {
 
     private void takeUserChoice(){
         
-        do{
+        do {
             choice = Helper.promptInput();
             switch(choice){
                 case 0:
@@ -35,6 +35,6 @@ public class Main {
                 default: 
                     System.out.println("Give valid number as input");
             }
-        }while(!Helper.isValidInteger(choice, 0, 2));
+        } while(!Helper.isValidInteger(choice, 0, 2));
     }
 }

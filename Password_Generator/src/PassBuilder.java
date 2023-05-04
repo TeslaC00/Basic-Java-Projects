@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -11,19 +10,21 @@ public class PassBuilder {
     private char[] charSymbols = new char[32];
 
     private boolean useUpperCase, useLowerCase, useNumbers, useSymbols;
-    private int passLength;
+    private int passLength, choice;
+    private ArrayList<Character> list;
 
     private Scanner scan = new Scanner(System.in);
 
     public PassBuilder(){
 
-        init();
-        passBuilderMenu();
+        init();     //initialize all variables
+        passBuilderMenu();      //shows password builder menu
     }
 
-    private void init() {   //initialize all variables
+    private void init() {
 
         useUpperCase = useLowerCase = useNumbers = useSymbols = true;
+        list = new ArrayList<>();
         passLength = 8;
 
         for(int i=0; i<charUpper.length; i++){
@@ -48,22 +49,21 @@ public class PassBuilder {
         System.out.println("0.Go back\n1.Set Password Parameters\n2.Generate Password");
         System.out.print("Please give your choice: ");
         
-        while(true){
-            
-            switch(Helper.promptInput()){
+        do {
+            choice = Helper.promptInput();
+            switch(choice){
                 case 0:
                     new Main();
                     break;
                 case 1: 
                     setPassParameters();
-                    break;
                 case 2: 
                     generate();
                     break;
                 default:
                     System.out.println("Please give a valid number");
             }
-        }
+        } while(!Helper.isValidInteger(choice, 0, 2));
     }
 
     private void setPassParameters(){
@@ -97,31 +97,20 @@ public class PassBuilder {
                 default:
                     System.err.print("Please give input either \"Yes\" OR \"No\": ");
             }
-        } while (true);
+        } while(true);
     }
 
     public void setPassLength() {
 
-        try {
-            passLength = scan.nextInt();
-            try {
-                if(passLength<8) throw new CustomException("Please give a number 8 or above");
-            } catch (CustomException e) {
-                System.err.println(e.getMessage());
-                setPassLength();
-            }
-        } catch (InputMismatchException e) {
-            System.err.print("Please give a number as input: ");
-            setPassLength();
-        }
-        System.out.println("Press enter to generate password...");
-        scan.nextLine();
-        generate();
+        do {
+            passLength = Helper.promptInput();
+            if(!Helper.isValidInteger(passLength, 8)) System.out.println("Password length must be greater than 8");
+        } while (!Helper.isValidInteger(passLength, 8));
     }
 
     public void generate(){
-
-        ArrayList<Character> list = new ArrayList<>();
+        
+        Random random = new Random();
         StringBuilder passA = new StringBuilder(passLength);
         StringBuilder passB = new StringBuilder(passLength);
         StringBuilder passC = new StringBuilder(passLength);
@@ -137,7 +126,6 @@ public class PassBuilder {
         if(useSymbols){
             for(char c: charSymbols) list.add(c);
         }
-        Random random = new Random();
         for(int i=0; i<passLength; i++){
             passA.append(list.get(random.nextInt(list.size())));
         }
@@ -150,9 +138,5 @@ public class PassBuilder {
         System.out.println(passA);
         System.out.println(passB);
         System.out.println(passC);
-        System.out.println("0.Go Back\t\t1.Regenrate password\t\t2.Save current password");
-        int i = scan.nextInt();
-        if(i==0) passBuilderMenu();
-        else if(i==1) generate();
     }
 }
