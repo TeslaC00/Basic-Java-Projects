@@ -13,7 +13,7 @@ public class Helper {
                 value = Integer.parseInt(input);
                 return value;
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a number");
+                System.err.println("Please enter a number");
             }
         }
     }
