@@ -61,7 +61,7 @@ public class PassBuilder {
                     generate();
                     break;
                 default:
-                    System.out.println("Please give a valid number");
+                    System.err.println("Please give a valid number");
             }
         } while(!Helper.isValidInteger(choice, 0, 2));
     }
@@ -104,7 +104,7 @@ public class PassBuilder {
 
         do {
             passLength = Helper.promptInput();
-            if(!Helper.isValidInteger(passLength, 8)) System.out.println("Password length must be greater than 8");
+            if(!Helper.isValidInteger(passLength, 8)) System.err.println("Password length must be greater than 8");
         } while (!Helper.isValidInteger(passLength, 8));
     }
 

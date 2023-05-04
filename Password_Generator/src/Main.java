@@ -33,7 +33,7 @@ public class Main {
                     new StrengthChecker();
                     break;
                 default: 
-                    System.out.println("Give valid number as input");
+                    System.err.println("Give valid number as input");
             }
         } while(!Helper.isValidInteger(choice, 0, 2));
     }
