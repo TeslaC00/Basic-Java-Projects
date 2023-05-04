@@ -3,10 +3,11 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static int choice;
-    static Scanner scan = new Scanner(System.in);
-    public static void main(String[] args) throws Exception {
-        
+    private int choice;
+    private Scanner scan = new Scanner(System.in);
+
+    public Main(){
+
         showMainMenu();   //shows main screen text
         takeUserChoice();   //takes the user choice
 
@@ -20,10 +21,12 @@ public class Main {
             case 2:
                 new StrengthChecker();
                 break;
+            default: 
+                System.out.println("Give valid number as input");
         }
     }
 
-    private static void showMainMenu() {
+    private void showMainMenu() {
 
         System.out.println("\033[H\033[2J");    //clears the screen
         System.out.println("Welcome to Password Generator and Strength Checker");
@@ -33,7 +36,7 @@ public class Main {
         System.out.println("What do you want to do?\nPlease enter your choice");
     }
 
-    public static void takeUserChoice(){
+    private void takeUserChoice(){
         
         try {
             System.out.print("Your Choice: ");
