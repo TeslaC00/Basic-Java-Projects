@@ -55,12 +55,15 @@ public class Menu {
                     break;
                 case 1: 
                     passwordBuilder.setPassParameters();
+                    break;
                 case 2: 
                     passwordBuilder.generate();
                     break;
                 default:
                     System.err.println("Please give a valid number");
             }
+            choice = -1;
+            System.out.print("Please give your choice: ");
         } while(!Helper.isValidInteger(choice, 0, 2));
     }
 }

@@ -22,10 +22,7 @@ public class PasswordBuilder {
 
         useUpperCase = useLowerCase = useNumbers = useSymbols = true;
         list = new ArrayList<>();
-        passwordLength = 8;
-        passwordA = new StringBuilder(passwordLength);
-        passwordB = new StringBuilder(passwordLength);
-        passwordC = new StringBuilder(passwordLength);
+        passwordLength = 16;
 
         for(int i=0; i<charUpper.length; i++){
             charUpper[i] = (char)(i+65);
@@ -64,14 +61,15 @@ public class PasswordBuilder {
             passwordLength = Helper.promptInput();
             if(!Helper.isValidInteger(passwordLength, 8)) System.err.println("Password length must be greater than 8");
         } while (!Helper.isValidInteger(passwordLength, 8));
-        passwordA.setLength(passwordLength);
-        passwordB.setLength(passwordLength);
-        passwordC.setLength(passwordLength);
     }
 
     public void generate(){
         
         Random random = new Random();
+        passwordA = new StringBuilder(passwordLength);
+        passwordB = new StringBuilder(passwordLength);
+        passwordC = new StringBuilder(passwordLength);
+
         if(useLowerCase){
             for(char c: charLower) list.add(c);
         }
@@ -86,11 +84,7 @@ public class PasswordBuilder {
         }
         for(int i=0; i<passwordLength; i++){
             passwordA.append(list.get(random.nextInt(list.size())));
-        }
-        for(int i=0; i<passwordLength; i++){
             passwordB.append(list.get(random.nextInt(list.size())));
-        }
-        for(int i=0; i<passwordLength; i++){
             passwordC.append(list.get(random.nextInt(list.size())));
         }
         
