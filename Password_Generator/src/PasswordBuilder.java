@@ -64,6 +64,9 @@ public class PasswordBuilder {
             passwordLength = Helper.promptInput();
             if(!Helper.isValidInteger(passwordLength, 8)) System.err.println("Password length must be greater than 8");
         } while (!Helper.isValidInteger(passwordLength, 8));
+        passwordA.setLength(passwordLength);
+        passwordB.setLength(passwordLength);
+        passwordC.setLength(passwordLength);
     }
 
     public void generate(){
@@ -90,8 +93,7 @@ public class PasswordBuilder {
         for(int i=0; i<passwordLength; i++){
             passwordC.append(list.get(random.nextInt(list.size())));
         }
-        System.out.println(passwordA);
-        System.out.println(passwordB);
-        System.out.println(passwordC);
+        
+        new Display(passwordA.toString(), passwordB.toString(), passwordC.toString());
     }
 }
