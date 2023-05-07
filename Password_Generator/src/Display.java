@@ -7,6 +7,7 @@ public class Display {
         this.passwordA = passwordA;
         this.passwordB = passwordB;
         this.passwordC = passwordC;
+        save();
         showPassword();
     }
 
@@ -15,6 +16,10 @@ public class Display {
         System.out.println(passwordA);
         System.out.println(passwordB);
         System.out.println(passwordC);
+    }
+
+    private void save() {
+        
     }
     
 }
