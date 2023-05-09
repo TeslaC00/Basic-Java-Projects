@@ -26,4 +26,22 @@ public class Helper {
         if(value<=high && value>=low) return true;
         return false;
     }
+
+    public static boolean setBoolean(){
+
+        do {
+            switch(scan.next()){
+                case "Yes":
+                case "yes":
+                case "YES":
+                    return true;
+                case "No":
+                case "NO":
+                case "no":
+                    return false;
+                default:
+                    System.err.print("Please give input either \"Yes\" OR \"No\": ");
+            }
+        } while(true);
+    }
 }

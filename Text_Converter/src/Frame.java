@@ -147,7 +147,7 @@ public class Frame extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "File loaded and processed successfully", "File Loaded", JOptionPane.INFORMATION_MESSAGE);
             }
             else{
-                JOptionPane.showMessageDialog(null, "File didn't loaded", "File Load Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "File didn't load", "File Load Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
