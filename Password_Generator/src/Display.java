@@ -2,24 +2,16 @@ public class Display {
     
     String passwordA, passwordB, passwordC;
 
-    public Display(String passwordA, String passwordB, String passwordC) {
+    Display(String A, String B, String C){
 
-        this.passwordA = passwordA;
-        this.passwordB = passwordB;
-        this.passwordC = passwordC;
-        save();
-        showPassword();
+        String password1 = A;
+        String password2 = B;
+        String password3 = C;
+
+        System.out.println("Generated Password 1: " + password1);
+        System.out.println("Generated Password 2: " + password2);
+        System.out.println("Generated Password 3: " + password3);
     }
 
-    private void showPassword() {
-
-        System.out.println(passwordA);
-        System.out.println(passwordB);
-        System.out.println(passwordC);
-    }
-
-    private void save() {
-        
-    }
-    
+    public void save(){}
 }
