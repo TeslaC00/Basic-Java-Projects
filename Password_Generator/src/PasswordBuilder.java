@@ -1,5 +1,5 @@
+import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class PasswordBuilder {
     
@@ -65,7 +65,7 @@ public class PasswordBuilder {
 
     public void generate(){
         
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         passwordA = new StringBuilder(passwordLength);
         passwordB = new StringBuilder(passwordLength);
         passwordC = new StringBuilder(passwordLength);
@@ -82,7 +82,7 @@ public class PasswordBuilder {
         if(useSymbols){
             for(char c: charSymbols) list.add(c);
         }
-        for(int i=0; i<passwordLength; i++){
+        for(int i = 0; i < passwordLength; i++){
             passwordA.append(list.get(random.nextInt(list.size())));
             passwordB.append(list.get(random.nextInt(list.size())));
             passwordC.append(list.get(random.nextInt(list.size())));
