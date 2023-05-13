@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Frame extends JFrame implements ActionListener {
@@ -39,18 +40,18 @@ public class Frame extends JFrame implements ActionListener {
     final private int FRAME_WIDTH = 720;
     final private int FRAME_HEIGHT = 720;
 
-    public Frame(){
+    public Frame() {
 
-        createMenuBar();        // creates a menu bar
-        createFontBox();        // creates a fontbox
-        createTextArea();       // creates a text area
-        createUI();             // creates a basic UI and add all components
-        initializeListeners();  // initialize all Listeners
+        createMenuBar(); // creates a menu bar
+        createFontBox(); // creates a fontbox
+        createTextArea(); // creates a text area
+        createUI(); // creates a basic UI and add all components
+        initializeListeners(); // initialize all Listeners
         converter = new Converter();
     }
-    
-    private void createMenuBar(){
-        
+
+    private void createMenuBar() {
+
         // Initialize all menu variables
         fileChooser = new JFileChooser(".");
         fileMenu = new JMenu("File");
@@ -61,7 +62,7 @@ public class Frame extends JFrame implements ActionListener {
         exit = new JMenuItem("Exit");
         fontColor = new JMenuItem("Font Color");
         bgColor = new JMenuItem("Text Area Color");
-        
+
         // Add all menu items to menu
         fileMenu.add(open);
         fileMenu.add(load);
@@ -76,21 +77,23 @@ public class Frame extends JFrame implements ActionListener {
         menuBar.add(color);
     }
 
-    private void createFontBox(){
+    private void createFontBox() {
 
-        String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // Get all available fonts
+        String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames(); // Get all
+                                                                                                          // available
+                                                                                                          // fonts
         fontBox = new JComboBox<String>(fonts);
         fontBox.setSelectedItem("Ink Free");
     }
 
-    private void createTextArea(){
+    private void createTextArea() {
 
         // Initialize all Text Area variables
         defaultFont = new Font("Ink Free", Font.PLAIN, DEFAULT_FONT_SIZE);
         textArea = new JTextArea("\n\t\tThis Is A Text Area");
 
-        // Set font properties
-        textArea.setEditable(false);
+        // Set textArea properties
+        textArea.setEditable(true);
         textArea.setFont(defaultFont);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -102,17 +105,17 @@ public class Frame extends JFrame implements ActionListener {
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
     }
 
-    private void createUI(){
+    private void createUI() {
 
         // Set basic UI properties of this frame
         setTitle("Text Converter");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(FRAME_WIDTH,FRAME_HEIGHT);
+        setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setLocationRelativeTo(null);
         setResizable(false);
         getContentPane().setBackground(Color.DARK_GRAY);
         setLayout(new FlowLayout());
-        
+
         // Add components to this frame
         setJMenuBar(menuBar);
         add(fontBox);
@@ -120,7 +123,7 @@ public class Frame extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    private void initializeListeners(){
+    private void initializeListeners() {
 
         // Add action listener to all menu items
         load.addActionListener(this);
@@ -135,44 +138,51 @@ public class Frame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(e.getSource()==exit){
+        if (e.getSource() == exit) {
             System.exit(0);
         }
-        
-        else if(e.getSource()==load){
+
+        else if (e.getSource() == load) {
             int response = fileChooser.showOpenDialog(null);
-            if(response==JFileChooser.APPROVE_OPTION){
+            if (response == JFileChooser.APPROVE_OPTION) {
                 converter.setLoadFilePath(fileChooser.getSelectedFile().getAbsolutePath());
                 words = converter.convertFileToWord();
-                JOptionPane.showMessageDialog(null, "File loaded and processed successfully", "File Loaded", JOptionPane.INFORMATION_MESSAGE);
-            }
-            else{
+                JOptionPane.showMessageDialog(null, "File loaded and processed successfully", "File Loaded",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
                 JOptionPane.showMessageDialog(null, "File didn't load", "File Load Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
-        else if(e.getSource()==save){
+        else if (e.getSource() == save) {
             int response = fileChooser.showSaveDialog(null);
-            if(response==JFileChooser.APPROVE_OPTION){
-                converter.setSaveFilePath(fileChooser.getSelectedFile().getAbsolutePath());
-                if(converter.saveWordToFile(words)){
-                    JOptionPane.showMessageDialog(null, "File saved successfully", "File Saved", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "File didn't saved", "File Save Error", JOptionPane.ERROR_MESSAGE);
+            if (response == JFileChooser.APPROVE_OPTION) {
+                try (PrintWriter writer = new PrintWriter(fileChooser.getSelectedFile().getAbsoluteFile())) {
+                    writer.println(textArea.getText());
+                    if (writer.checkError()) {
+                        JOptionPane.showMessageDialog(null, "File didn't saved error in format", "Format Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Text saved to file", "Save success",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (FileNotFoundException e1) {
+                    JOptionPane.showMessageDialog(null, "File not found error", "File Address Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
 
-        else if(e.getSource()==open){
+        else if (e.getSource() == open) {
             int response = fileChooser.showOpenDialog(null);
-            if(response==JFileChooser.APPROVE_OPTION){
-                if(textArea.getText()!=null) textArea.setText("");
+            if (response == JFileChooser.APPROVE_OPTION) {
+                if (textArea.getText() != null)
+                    textArea.setText("");
                 File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
-                if(file.isFile()){
+                if (file.isFile()) {
                     try (Scanner scan = new Scanner(file)) {
-                        while(scan.hasNextLine()){
-                            textArea.append(scan.nextLine()+"\n");
+                        while (scan.hasNextLine()) {
+                            textArea.append(scan.nextLine() + "\n");
                         }
                     } catch (FileNotFoundException e1) {
                         e1.printStackTrace();
@@ -181,23 +191,24 @@ public class Frame extends JFrame implements ActionListener {
             }
         }
 
-        else if(e.getSource()==fontBox){
-            textArea.setFont(new Font(fontBox.getSelectedItem().toString(),Font.PLAIN,20));
+        else if (e.getSource() == fontBox) {
+            textArea.setFont(new Font(fontBox.getSelectedItem().toString(), Font.PLAIN, 20));
         }
 
-        else if(e.getSource()==fontColor){
+        else if (e.getSource() == fontColor) {
             Color fontC = JColorChooser.showDialog(null, "Font Color Chooser", Color.black);
             textArea.setForeground(fontC);
         }
 
-        else if(e.getSource()==bgColor){
+        else if (e.getSource() == bgColor) {
             Color bgC = JColorChooser.showDialog(null, "Text Area Color Chooser", Color.cyan);
             textArea.setBackground(bgC);
         }
 
-        else{
-            JOptionPane.showMessageDialog(null, "Unknown option selected please select valid options", "Unknown Error", JOptionPane.ERROR_MESSAGE);
+        else {
+            JOptionPane.showMessageDialog(null, "Unknown option selected please select valid options", "Unknown Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
 }
