@@ -1,37 +1,78 @@
 public class PasswordStrengthChecker {
 
-    private PasswordBuilder passwordBuilder;
-    private String password;
-    private int score=0;
+    private String passA, passB, passC;
+    private int choice;
 
     public PasswordStrengthChecker(PasswordBuilder passwordBuilder) {
-        this.passwordBuilder = passwordBuilder;
-        menu();
+        try {
+            passA = passwordBuilder.passwordA.toString();
+            passB = passwordBuilder.passwordB.toString();
+            passC = passwordBuilder.passwordC.toString();
+            strengthCheckMenu();
+        } catch (NullPointerException e) {
+            System.err.println("Please generate password before checking strength");
+        }
     }
 
-    private void menu(){
-        System.out.println("\033[H\033[2J"); 
-        System.out.println("Choose a password to chek strength of: ");
-        System.out.println("1."+passwordBuilder.passwordA);
-        System.out.println("2."+passwordBuilder.passwordB);
-        System.out.println("3."+passwordBuilder.passwordC);
-        System.out.println("4. Go back");
-        System.out.println("5. Exit");
+    private void strengthCheckMenu() {
+        System.out.println("\033[H\033[2J");
+        System.out.println("Password Strength Checker Menu");
+        System.out.println("0. Exit");
+        System.out.println("1. Show passwords ");
+        System.out.println("2. Save a password");
+        System.out.println("3. Go back");
 
-        int choice = Helper.promptInput();
+        while (true) {
+            choice = Helper.promptInput();
+            switch (choice) {
+                case 0:
+                    System.exit(0);
+                    break;
+                case 1:
+                    System.out.println("Password: " + passA + "\tStrength: " + getPasswordStrength(passA));
+                    System.out.println("Password: " + passB + "\tStrength: " + getPasswordStrength(passB));
+                    System.out.println("Password: " + passC + "\tStrength: " + getPasswordStrength(passC));
+                    break;
+                case 2:
+                    save();
+                    break;
+                case 3:
+                    new Menu();
+                    break;
+                default:
+                    System.err.println("Please give a valid input");
+            }
+            System.out.println("Your choice :");
+        }
     }
 
-    public String getPassword() {
-        return password;
+    public void save() {
+        System.out.println("Which password do you want to save: ");
+        int choice = -1;
+        do {
+            choice = Helper.promptInput();
+            switch (choice) {
+                case 1:
+                    Saver.userSave(passA);
+                    break;
+                case 2:
+                    Saver.userSave(passA);
+                    break;
+                case 3:
+                    Saver.userSave(passA);
+                    break;
+                default:
+                    System.out.println("Choose valid input");
+            }
+
+        } while (!Helper.isValidInteger(choice, 1, 3));
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public int calculatePasswordStrength(String password) {
 
-    public int calculatePasswordStrength() {
+        int score = 0, symbolCount = 0, numberCount = 0;
 
-        if (password.length() >= 8 && password.length() >= 16) {
+        if (password.length() >= 16) {
             score += 2;
         } else if (password.length() >= 8) {
             score += 1;
@@ -44,9 +85,6 @@ public class PasswordStrengthChecker {
         if (Character.isLowerCase(password.charAt(password.length() - 1))) {
             score += 1;
         }
-
-        int numberCount = 0;
-        int symbolCount = 0;
 
         for (char ch : password.toCharArray()) {
             if (Character.isDigit(ch)) {
@@ -71,7 +109,10 @@ public class PasswordStrengthChecker {
         return score;
     }
 
-    public String getPasswordStrength(int score) {
+    public String getPasswordStrength(String password) {
+
+        int score = calculatePasswordStrength(password);
+
         if (score >= 7) {
             return "Great";
         } else if (score >= 5) {
@@ -83,7 +124,7 @@ public class PasswordStrengthChecker {
         }
     }
 
-    public int checkPasswordStrength() {
+    public int checkPasswordStrength(String password) {
         int score = 0;
 
         // Check if password starts with uppercase letter

@@ -4,9 +4,9 @@ public class Helper {
 
     private static Scanner scan = new Scanner(System.in);
 
-    public static int promptInput(){
+    public static int promptInput() {
 
-        while(true){
+        while (true) {
             String input = scan.next();
             int value = 0;
             try {
@@ -18,19 +18,20 @@ public class Helper {
         }
     }
 
-    public static boolean isValidInteger(int value, int low){
-        return value>=low;
+    public static boolean isValidInteger(int value, int low) {
+        return value >= low;
     }
 
-    public static boolean isValidInteger(int value, int low, int high){
-        if(value<=high && value>=low) return true;
+    public static boolean isValidInteger(int value, int low, int high) {
+        if (value <= high && value >= low)
+            return true;
         return false;
     }
 
-    public static boolean setBoolean(){
+    public static boolean setBoolean() {
 
         do {
-            switch(scan.next()){
+            switch (scan.next()) {
                 case "Yes":
                 case "yes":
                 case "YES":
@@ -42,6 +43,6 @@ public class Helper {
                 default:
                     System.err.print("Please give input either \"Yes\" OR \"No\": ");
             }
-        } while(true);
+        } while (true);
     }
 }
