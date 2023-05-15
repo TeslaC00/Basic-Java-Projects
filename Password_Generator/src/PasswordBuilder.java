@@ -2,20 +2,20 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class PasswordBuilder {
-    
-    private char[] charUpper = new char[26];
-    private char[] charLower = new char[26];
-    private char[] charNumbers = new char[10];
-    private char[] charSymbols = new char[32];
+
+    private final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+    private final String NUMBERS = "0123456789";
+    private final String SYMBOLS = "!\"#$%&'()*+,-./:;< = >?@[\\]^_`{|}~";
 
     private boolean useUpperCase, useLowerCase, useNumbers, useSymbols;
     private int passwordLength;
-    private StringBuilder passwordA, passwordB, passwordC;
+    StringBuilder passwordA, passwordB, passwordC;
     private ArrayList<Character> list;
 
-    public PasswordBuilder(){
+    public PasswordBuilder() {
 
-        init();     //initialize all variables
+        init(); // initialize all variables
     }
 
     private void init() {
@@ -23,23 +23,9 @@ public class PasswordBuilder {
         useUpperCase = useLowerCase = useNumbers = useSymbols = true;
         list = new ArrayList<>();
         passwordLength = 16;
-
-        for(int i=0; i<charUpper.length; i++){
-            charUpper[i] = (char)(i+65);
-            charLower[i] = (char)(i+97);
-        }
-        for(int i=0; i<charNumbers.length; i++){
-            charNumbers[i] = (char)(i+48);
-        }
-        for(int i=0; i<32; i++){
-            if(i<15) charSymbols[i] = (char)(i+33);
-            else if(i>=15 && i<22) charSymbols[i] = (char)(i+43);
-            else if(i>=22 && i<28) charSymbols[i] = (char)(i+69);
-            else charSymbols[i] = (char)(i+95);
-        }
     }
 
-    public void setPassParameters(){
+    public void setPassParameters() {
 
         System.out.println("Please tell us your password requirements");
         System.out.print("Do you want Uppercase?: ");
@@ -59,35 +45,43 @@ public class PasswordBuilder {
 
         do {
             passwordLength = Helper.promptInput();
-            if(!Helper.isValidInteger(passwordLength, 8)) System.err.println("Password length must be greater than 8");
+            if (!Helper.isValidInteger(passwordLength, 8))
+                System.err.println("Password length must be greater than 8");
         } while (!Helper.isValidInteger(passwordLength, 8));
     }
 
-    public void generate(){
-        
+    public void generate() {
+
         SecureRandom random = new SecureRandom();
         passwordA = new StringBuilder(passwordLength);
         passwordB = new StringBuilder(passwordLength);
         passwordC = new StringBuilder(passwordLength);
 
-        if(useLowerCase){
-            for(char c: charLower) list.add(c);
+        if (useUpperCase) {
+            for (int i = 0; i < UPPERCASE.length(); i++) {
+                list.add(UPPERCASE.charAt(i));
+            }
         }
-        if(useUpperCase){
-            for(char c: charUpper) list.add(c);
+        if (useLowerCase) {
+            for (int i = 0; i < LOWERCASE.length(); i++) {
+                list.add(LOWERCASE.charAt(i));
+            }
         }
-        if(useNumbers){
-            for(char c: charNumbers) list.add(c);
+        if (useNumbers) {
+            for (int i = 0; i < NUMBERS.length(); i++) {
+                list.add(NUMBERS.charAt(i));
+            }
         }
-        if(useSymbols){
-            for(char c: charSymbols) list.add(c);
+        if (useSymbols) {
+            for (int i = 0; i < SYMBOLS.length(); i++) {
+                list.add(SYMBOLS.charAt(i));
+            }
         }
-        for(int i = 0; i < passwordLength; i++){
+        for (int i = 0; i < passwordLength; i++) {
             passwordA.append(list.get(random.nextInt(list.size())));
             passwordB.append(list.get(random.nextInt(list.size())));
             passwordC.append(list.get(random.nextInt(list.size())));
         }
-        
         new Display(passwordA.toString(), passwordB.toString(), passwordC.toString());
     }
 }
