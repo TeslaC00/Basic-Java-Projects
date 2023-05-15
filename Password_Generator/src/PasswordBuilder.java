@@ -10,7 +10,7 @@ public class PasswordBuilder {
 
     private boolean useUpperCase, useLowerCase, useNumbers, useSymbols;
     private int passwordLength;
-    private StringBuilder passwordA, passwordB, passwordC;
+    StringBuilder passwordA, passwordB, passwordC;
     private ArrayList<Character> list;
 
     public PasswordBuilder(){

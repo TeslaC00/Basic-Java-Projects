@@ -32,7 +32,7 @@ public class Menu {
                     passwordBuilderMenu();
                     break;
                 case 2:
-                    new StrengthChecker();
+                    new PasswordStrengthChecker(passwordBuilder);
                     break;
                 default: 
                     System.err.println("Give valid number as input");
