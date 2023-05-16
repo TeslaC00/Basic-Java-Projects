@@ -1,26 +1,34 @@
 public class PasswordStrengthChecker {
 
     private String passA, passB, passC;
+    PasswordBuilder passwordBuilder;
     private int choice;
 
     public PasswordStrengthChecker(PasswordBuilder passwordBuilder) {
+        this.passwordBuilder = passwordBuilder;
+        init();
+        strengthCheckMenu();
+    }
+
+    private void init() {
         try {
             passA = passwordBuilder.passwordA.toString();
             passB = passwordBuilder.passwordB.toString();
             passC = passwordBuilder.passwordC.toString();
-            strengthCheckMenu();
         } catch (NullPointerException e) {
             System.err.println("Please generate password before checking strength");
         }
+
     }
 
     private void strengthCheckMenu() {
         System.out.println("\033[H\033[2J");
         System.out.println("Password Strength Checker Menu");
         System.out.println("0. Exit");
-        System.out.println("1. Show passwords ");
+        System.out.println("1. Show passwords and their strength");
         System.out.println("2. Save a password");
-        System.out.println("3. Go back");
+        System.out.println("3. Regenrate password");
+        System.out.println("4. Go back");
 
         while (true) {
             choice = Helper.promptInput();
@@ -37,6 +45,10 @@ public class PasswordStrengthChecker {
                     save();
                     break;
                 case 3:
+                    passwordBuilder.generate();
+                    init();
+                    break;
+                case 4:
                     new Menu();
                     break;
                 default:
@@ -53,13 +65,13 @@ public class PasswordStrengthChecker {
             choice = Helper.promptInput();
             switch (choice) {
                 case 1:
-                    Saver.userSave(passA);
+                    Display.save(passA);
                     break;
                 case 2:
-                    Saver.userSave(passA);
+                    Display.save(passB);
                     break;
                 case 3:
-                    Saver.userSave(passA);
+                    Display.save(passC);
                     break;
                 default:
                     System.out.println("Choose valid input");
@@ -122,41 +134,5 @@ public class PasswordStrengthChecker {
         } else {
             return "Weak";
         }
-    }
-
-    public int checkPasswordStrength(String password) {
-        int score = 0;
-
-        // Check if password starts with uppercase letter
-        if (password.matches("^[A-Z].*$")) {
-            score += 2;
-        }
-
-        // Check if password ends with lowercase letter
-        if (password.matches("^.*[a-z]$")) {
-            score += 2;
-        }
-
-        // Check if password has at least three numbers
-        if (password.matches("^(.\\d.){3,}$")) {
-            score += 2;
-        }
-
-        // Check if password uses at least three symbols
-        if (password.matches("^(.[!@#$%^&()_+\\-={}\\[\\]|;:\"<>,./?].*){3,}$")) {
-            score += 2;
-        }
-
-        // Check if password is 8 characters or longer
-        if (password.length() >= 8) {
-            score += 2;
-        }
-
-        // Check if password is 16 characters or longer
-        if (password.length() >= 16) {
-            score += 2;
-        }
-
-        return score;
     }
 }
