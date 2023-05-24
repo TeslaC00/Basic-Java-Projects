@@ -27,7 +27,7 @@ public class PasswordBuilder {
 
     public void setPassParameters() {
 
-        System.out.println("Please tell us your password requirements");
+        System.out.println("Please tell us your password requirements(Yes/No)");
         System.out.print("Do you want Uppercase?: ");
         useUpperCase = Helper.setBoolean();
         System.out.print("Do you want Lowercase?: ");
