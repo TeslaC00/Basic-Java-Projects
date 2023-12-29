@@ -5,6 +5,8 @@
 # Compiled class file
 *.class
 
+bin/
+
 # Log file
 *.log
 
